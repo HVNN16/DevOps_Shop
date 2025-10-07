@@ -8,7 +8,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/user_routes.js';
 import orderRoutes from './routes/order_routes.js';
-import cartRoutes from './routes/cart_routes.js';
+import cartRoutes from "./routes/cartRoutes.js";
 import authRoutes from './routes/auth_routes.js';
 
 const app = express();
@@ -41,5 +41,5 @@ app.use("/api/auth", authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/cart', cartRoutes);
+app.use("/api/cart", cartRoutes);
 export default app;
