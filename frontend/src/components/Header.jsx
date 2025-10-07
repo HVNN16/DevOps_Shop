@@ -11,15 +11,37 @@ export default function Header() {
   };
 
   return (
-    <header className="flex justify-between items-center bg-indigo-600 text-white px-6 py-3">
-      <h1 className="text-xl font-bold">DevOps Shop</h1>
-      <nav className="space-x-4">
+    <header className="flex justify-between items-center bg-indigo-600 text-white px-6 py-3 shadow-md">
+      <h1
+        onClick={() => navigate("/")}
+        className="text-xl font-bold cursor-pointer hover:text-gray-200"
+      >
+        DevOps Shop
+      </h1>
+
+      <nav className="space-x-4 flex items-center">
         <Link to="/">Trang chủ</Link>
         <Link to="/products">Sản phẩm</Link>
+
         {user ? (
           <>
-            <span>Xin chào, {user.name}</span>
-            <button onClick={handleLogout} className="ml-3 underline">Đăng xuất</button>
+            {/* ✅ Nếu là admin thì hiển thị thêm nút “Trang quản trị” */}
+            {user.role === "admin" && (
+              <Link
+                to="/admin"
+                className="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500"
+              >
+                Trang quản trị
+              </Link>
+            )}
+
+            <span className="ml-2">Xin chào, <b>{user.name}</b></span>
+            <button
+              onClick={handleLogout}
+              className="ml-3 underline hover:text-gray-200"
+            >
+              Đăng xuất
+            </button>
           </>
         ) : (
           <>
