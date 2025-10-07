@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
 // Routes
-import productRoutes from './routes/product_routes.js';
+import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/user_routes.js';
 import orderRoutes from './routes/order_routes.js';
 import cartRoutes from './routes/cart_routes.js';
