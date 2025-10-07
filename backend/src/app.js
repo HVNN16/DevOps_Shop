@@ -19,14 +19,20 @@ app.use(express.json());
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
-    info: {
-      title: "Phone Store API",
-      version: "1.0.0",
-      description: "RESTful API cho hệ thống cửa hàng điện thoại",
+    info: { title: "Phone Store API", version: "1.0.0" },
+    servers: [{ url: `http://localhost:${process.env.PORT || 8081}` }],
+
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT", // 🧠 giúp Swagger hiểu đây là token JWT
+        },
+      },
     },
-    servers: [{ url: "http://localhost:" + (process.env.PORT || 8081) }],
+    security: [{ bearerAuth: [] }], // 🧠 áp dụng cho toàn bộ API
   },
-  // 👉 quét cả route và docs
   apis: ["./src/routes/*.js", "./src/docs/*.js"],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
