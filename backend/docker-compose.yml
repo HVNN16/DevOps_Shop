@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: phone_backend
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - MONGO_URI=mongodb+srv://vannghia16062004_db_user:CExJdIFqOM1SunGg@clusterdevops.0tadzaa.mongodb.net/
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    command: npm run dev
+
+  mongodb:
+    image: mongo:7
+    container_name: phone_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
