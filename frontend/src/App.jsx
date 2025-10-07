@@ -1,29 +1,29 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
+
+import ProductList from "./pages/ProductList";
+import CartPage from "./pages/CartPage";
+import ProductDetails from "./pages/ProductDetails";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
-import { CartProvider } from "./context/CartContext";
-import ProductDetails from "./pages/ProductDetails";
+
+
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
         <Header />
         <main className="min-h-[80vh]">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/" element={<ProductList />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFound />} />
             <Route
                   path="/admin"
@@ -36,7 +36,6 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </CartProvider>
     </BrowserRouter>
   );
 }

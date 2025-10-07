@@ -1,55 +1,73 @@
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axiosClient from "../api/axios_client";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../api/axios_client";
 
-export default function ProductDetails() {
+export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
-    axiosClient
-      .get(`/products/${id}`)
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.error("❌ Error loading product:", err))
-      .finally(() => setLoading(false));
+    api.get(`/products/${id}`).then((res) => {
+      setProduct(res.data);
+      setSelectedVariant(res.data.variants?.[0]);
+    });
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (!product) return <p className="text-center mt-10">Product not found.</p>;
+  const handleAddToCart = async () => {
+    try {
+      const res = await api.post("/cart/add", {
+        productId: product._id,
+        variant: selectedVariant,
+        quantity: 1,
+      });
+      alert("✅ " + res.data.message);
+    } catch (err) {
+      alert("❌ " + err.response?.data?.message || "Lỗi khi thêm vào giỏ hàng");
+    }
+  };
+
+  if (!product) return <p>Đang tải chi tiết...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <Link
-        to="/products"
-        className="text-blue-600 hover:underline mb-4 inline-block"
-      >
-        ← Back to Products
-      </Link>
+    <div className="max-w-3xl mx-auto p-6">
+      <img
+        src={product.images?.[0] || "https://via.placeholder.com/400"}
+        alt={product.name}
+        className="w-full h-64 object-cover rounded-lg mb-4"
+      />
+      <h2 className="text-2xl font-bold">{product.name}</h2>
+      <p className="text-gray-500">{product.brand}</p>
+      <p className="text-red-600 font-bold text-lg mt-2">
+        {product.finalPrice?.toLocaleString()} đ
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-2xl shadow-lg">
-        <img
-          src={product.image || "https://via.placeholder.com/500x400?text=No+Image"}
-          alt={product.name}
-          className="w-full h-80 object-cover rounded-lg"
-        />
-
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">
-            {product.name}
-          </h1>
-          <p className="text-lg text-gray-500 mb-2">{product.brand}</p>
-          <p className="text-2xl text-blue-700 font-bold mb-4">
-            ${product.price}
-          </p>
-          <p className="text-gray-700 leading-relaxed mb-6">
-            {product.description || "No description available."}
-          </p>
-          <button className="w-full bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition">
-            Add to Cart
-          </button>
-        </div>
+      <div className="mt-4">
+        <label className="font-semibold">Chọn biến thể:</label>
+        <select
+          onChange={(e) =>
+            setSelectedVariant(
+              product.variants.find(
+                (v) => v.storage === e.target.value
+              )
+            )
+          }
+          className="border p-2 ml-2"
+        >
+          {product.variants?.map((v, i) => (
+            <option key={i} value={v.storage}>
+              {v.color} - {v.storage} - {v.ram}
+            </option>
+          ))}
+        </select>
       </div>
+
+      <button
+        onClick={handleAddToCart}
+        className="bg-blue-600 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700"
+      >
+        ➕ Thêm vào giỏ hàng
+      </button>
     </div>
   );
 }

@@ -21,7 +21,8 @@ export default function Header() {
 
       <nav className="space-x-4 flex items-center">
         <Link to="/">Trang chủ</Link>
-        <Link to="/products">Sản phẩm</Link>
+        <Link to="/cart">Giỏ hàng</Link>
+
 
         {user ? (
           <>
