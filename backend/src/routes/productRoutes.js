@@ -6,14 +6,17 @@ import {
   updateProduct,
   deleteProduct,
 } from '../controllers/productController.js';
+import authMiddleware from '../middlewares/auth_middleware.js';
 
 const router = express.Router();
 
-// ✅ Public test routes (bỏ token tạm thời)
+// Public test routes
 router.get('/', getProducts);          // xem danh sách
 router.get('/:id', getProductById);    // xem chi tiết
-router.post('/', createProduct);       // thêm sản phẩm
-router.put('/:id', updateProduct);     // sửa sản phẩm
-router.delete('/:id', deleteProduct);  // xóa sản phẩm
+
+// Private
+router.post('/', authMiddleware, createProduct);
+router.put('/:id', authMiddleware, updateProduct);
+router.delete('/:id', authMiddleware, deleteProduct);
 
 export default router;
