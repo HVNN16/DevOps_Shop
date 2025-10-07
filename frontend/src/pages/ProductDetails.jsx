@@ -9,7 +9,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     axiosClient
-      .get(`/api/products/${id}`)
+      .get(`/products/${id}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.error("❌ Error loading product:", err))
       .finally(() => setLoading(false));
