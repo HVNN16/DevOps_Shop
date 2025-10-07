@@ -16,14 +16,18 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-// Swagger
 const swaggerOptions = {
   definition: {
-    openapi: '3.0.0',
-    info: { title: 'Phone Store API', version: '1.0.0' },
-    servers: [{ url: 'http://localhost:' + (process.env.PORT || 8081) }]
+    openapi: "3.0.0",
+    info: {
+      title: "Phone Store API",
+      version: "1.0.0",
+      description: "RESTful API cho hệ thống cửa hàng điện thoại",
+    },
+    servers: [{ url: "http://localhost:" + (process.env.PORT || 8081) }],
   },
-  apis: ['./src/routes/*.js'],
+  // 👉 quét cả route và docs
+  apis: ["./src/routes/*.js", "./src/docs/*.js"],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -32,10 +36,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 // Mount routes
+// Routes
+app.use("/api/auth", authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
-app.use('/api/auth', authRoutes);
-
 export default app;

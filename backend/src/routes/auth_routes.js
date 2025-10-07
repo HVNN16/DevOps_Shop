@@ -1,12 +1,16 @@
-import express from 'express';
+import express from "express";
+import * as authCtrl from "../controllers/auth_controller.js";
+import authMiddleware from "../middlewares/auth_middleware.js";
+
 const router = express.Router();
 
-/**
- * @swagger
- * tags:
- *   name: Auth
- *   description: Authentication endpoints (stub)
- */
+// Đăng ký
+router.post("/register", authCtrl.register);
 
-router.post('/login', (req, res) => res.json({ token: 'dummy', note: 'stub' }));
+// Đăng nhập
+router.post("/login", authCtrl.login);
+
+// Lấy thông tin user hiện tại
+router.get("/me", authMiddleware, authCtrl.getProfile);
+
 export default router;
