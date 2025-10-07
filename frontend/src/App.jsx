@@ -9,7 +9,8 @@ import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 import { CartProvider } from "./context/CartContext";
 import ProductDetails from "./pages/ProductDetails";
-
+import AdminRoute from "./components/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,14 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<NotFound />} />
+            <Route
+                  path="/admin"
+                  element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                  }
+            />
           </Routes>
         </main>
         <Footer />
