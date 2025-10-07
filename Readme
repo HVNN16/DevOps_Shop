@@ -1,0 +1,36 @@
+# 🚀 DEVOPS_SHOP
+
+> **DEVOPS_SHOP** là dự án xây dựng hệ thống quản lý và bán điện thoại trực tuyến, áp dụng quy trình DevOps để tự động hóa triển khai, kiểm thử và quản lý hệ thống.
+
+---
+
+## 🌟 Tính năng chính
+
+- 📱 Quản lý sản phẩm điện thoại
+- 🛒 Quản lý đơn hàng và khách hàng
+- 💳 Thanh toán trực tuyến
+- 🛠️ Quản trị hệ thống dành cho quản lý
+
+---
+
+## 🛠️ Công nghệ sử dụng
+
+| Backend      | Frontend   | Database  | CI/CD                |
+|--------------|------------|-----------|----------------------|
+| Node.js      | ReactJS    | MongoDB   | GitHub Actions, Docker |
+
+---
+
+## 🎯 Mục tiêu
+
+- Đem lại trải nghiệm mua sắm điện thoại tiện lợi cho khách hàng
+- Tối ưu hóa quy trình phát triển và triển khai phần mềm bằng DevOps
+
+---
+
+## 👨‍💻 Thành viên nhóm
+
+- Trần Quốc Đông
+- Nguyễn Thị Minh Nguyệt
+- Huỳnh Văn Nghĩa
+- Hồ Quang Lành
