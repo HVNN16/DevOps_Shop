@@ -5,6 +5,10 @@ import Footer from "./components/Footer";
 import ProductList from "./pages/ProductList";
 import CartPage from "./pages/CartPage";
 import ProductDetails from "./pages/ProductDetails";
+import Products from "./pages/Products";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -22,7 +26,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<ProductList />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFound />} />
             <Route
