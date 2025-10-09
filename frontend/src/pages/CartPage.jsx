@@ -115,11 +115,11 @@ export default function CartPage() {
   // 🔹 Lấy dữ liệu giỏ hàng
   const fetchCart = () => {
     api
-      .get("/cart")
-      .then((res) => setCart(res.data))
-      .catch((err) => {
-        console.error("GET /cart error:", err.response?.data || err.message);
-      });
+        .get("/cart")
+        .then((res) => setCart(res.data))
+        .catch((err) => {
+          console.error("GET /cart error:", err.response?.data || err.message);
+        });
   };
 
   // 🔹 Cập nhật số lượng
@@ -130,10 +130,7 @@ export default function CartPage() {
       fetchCart();
       window.dispatchEvent(new Event("cartUpdated")); // 🟢 Cập nhật Header
     } catch (err) {
-      console.error(
-        "PUT /cart/update error:",
-        err.response?.data || err.message
-      );
+      console.error("PUT /cart/update error:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Lỗi cập nhật giỏ hàng");
     }
   };
@@ -145,10 +142,7 @@ export default function CartPage() {
       fetchCart();
       window.dispatchEvent(new Event("cartUpdated")); // 🟢 Cập nhật Header
     } catch (err) {
-      console.error(
-        "DELETE /cart/remove error:",
-        err.response?.data || err.message
-      );
+      console.error("DELETE /cart/remove error:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Lỗi xóa sản phẩm");
     }
   };
