@@ -8,7 +8,8 @@ import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderList from "./pages/OrderList";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -31,6 +32,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrderList />} />
             <Route path="*" element={<NotFound />} />
             <Route
                   path="/admin"
