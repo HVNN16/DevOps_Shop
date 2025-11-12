@@ -16,6 +16,9 @@ import NotFound from "./pages/NotFound";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts"; // ✅ thêm route quản lý sản phẩm
+import { Check } from "lucide-react";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderList from "./pages/OrderList";
 
 function App() {
   return (
@@ -29,6 +32,8 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/about" element={<About />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrderList />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<CartPage />} />
 
