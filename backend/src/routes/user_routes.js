@@ -1,16 +1,18 @@
 import express from "express";
-import User from "../models/user_model.js";
 import authMiddleware from "../middlewares/auth_middleware.js";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../controllers/user_controller.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, async (req, res) => {
-  try {
-    const users = await User.find().select("-password");
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Lỗi server" });
-  }
-});
+// ✅ CRUD routes
+router.get("/", authMiddleware, getUsers);
+router.post("/", authMiddleware, createUser);
+router.put("/:id", authMiddleware, updateUser);
+router.delete("/:id", authMiddleware, deleteUser);
 
 export default router;
