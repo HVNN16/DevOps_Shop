@@ -50,4 +50,6 @@ app.use('/api/users', userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
+// Đăng ký routes
+app.use("/api/users", userRoutes);
 export default app;
