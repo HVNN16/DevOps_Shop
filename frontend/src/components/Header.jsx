@@ -199,9 +199,9 @@ export default function Header() {
             {/* Right Icons */}
             <div className="flex items-center gap-6">
               {/* Search Icon */}
-              <button className="text-gray-700 hover:text-gray-900 transition-colors">
+              {/* <button className="text-gray-700 hover:text-gray-900 transition-colors">
                 <Search className="w-5 h-5" />
-              </button>
+              </button> */}
 
               {/* Cart Icon (Badge tự động cập nhật) */}
               <Link
