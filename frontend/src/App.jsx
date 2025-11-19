@@ -16,36 +16,40 @@ import NotFound from "./pages/NotFound";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
+
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderList from "./pages/OrderList";
 import VNPayReturn from "./pages/VNPayReturn";
 
-import { CartProvider } from "./context/CartContext";   // 🔥 MUST HAVE
+import { CartProvider } from "./context/CartContext"; // BỌC TOÀN ỨNG DỤNG
 
 function App() {
   return (
-    <CartProvider>                                  {/* 🔥 BỌC TOÀN BỘ ỨNG DỤNG */}
+    <CartProvider>
       <BrowserRouter>
         <Header />
 
         <main className="min-h-[80vh]">
           <Routes>
-            {/* 🌐 Public Routes */}
+            {/* 🌐 PUBLIC ROUTES */}
             <Route path="/" element={<ProductList />} />
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/about" element={<About />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/orders" element={<OrderList />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<CartPage />} />
+
+            {/* 🧾 CHECKOUT + ORDERS */}
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrderList />} />
             <Route path="/vnpay-return" element={<VNPayReturn />} />
 
-            {/* 👤 Auth Routes */}
+            {/* 👤 AUTH */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* ⚙️ Admin Routes */}
+            {/* ⚙️ ADMIN ROUTES */}
             <Route
               path="/admin"
               element={
@@ -54,11 +58,21 @@ function App() {
                 </AdminRoute>
               }
             />
+
             <Route
               path="/admin/products"
               element={
                 <AdminRoute>
                   <AdminProducts />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <AdminOrders />
                 </AdminRoute>
               }
             />
