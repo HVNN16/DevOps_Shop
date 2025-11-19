@@ -22,6 +22,9 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderList from "./pages/OrderList";
 import VNPayReturn from "./pages/VNPayReturn";
 
+import ProfilePage from "./pages/ProfilePage";
+
+
 import { CartProvider } from "./context/CartContext"; // BỌC TOÀN ỨNG DỤNG
 
 function App() {
@@ -39,6 +42,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
 
             {/* 🧾 CHECKOUT + ORDERS */}
             <Route path="/checkout" element={<CheckoutPage />} />
