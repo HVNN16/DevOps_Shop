@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200">
       {/* Newsletter Section */}
-      <div className="bg-gray-900 text-white py-12">
+      {/* <div className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-3">
             Đăng ký nhận thông tin khuyến mãi
@@ -23,7 +23,7 @@ export default function Footer() {
             Đăng ký
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-12">
