@@ -1,26 +1,27 @@
-version: "3.9"
-
 services:
   backend:
-    build: .
-    container_name: phone_backend
+    image: DOCKER_USERNAME/devops_shop_backend:latest
+    container_name: devops_backend
+    restart: always
     ports:
       - "8081:8081"
     environment:
       - PORT=8081
-      - MONGO_URI=mongodb+srv://vannghia16062004_db_user:CExJdIFqOM1SunGg@clusterdevops.0tadzaa.mongodb.net/
+      - MONGO_URL=mongodb://mongo:27017/devops_shop
     depends_on:
-      - mongodb
-    volumes:
-      - .:/app
-    command: npm run dev
+      - mongo
 
-  mongodb:
-    image: mongo:7
-    container_name: phone_mongodb
+  frontend:
+    image: DOCKER_USERNAME/devops_shop_frontend:latest
+    container_name: devops_frontend
     restart: always
     ports:
-      - "27017:27017"
+      - "3000:80"
+
+  mongo:
+    image: mongo:6
+    container_name: devops_mongo
+    restart: always
     volumes:
       - mongo_data:/data/db
 
