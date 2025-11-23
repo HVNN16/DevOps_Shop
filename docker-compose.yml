@@ -1,18 +1,18 @@
 services:
   backend:
-    image: DOCKER_USERNAME/devops_shop_backend:latest
+    image: hvnn1606/devops_shop_backend:latest
     container_name: devops_backend
     restart: always
     ports:
       - "8081:8081"
     environment:
       - PORT=8081
-      - MONGO_URL=mongodb://mongo:27017/devops_shop
+      - MONGO_URL=mongodb+srv://vannghia16062004_db_user:CExJdIFqOM1SunGg@clusterdevops.0tadzaa.mongodb.net/database
     depends_on:
       - mongo
 
   frontend:
-    image: DOCKER_USERNAME/devops_shop_frontend:latest
+    image: hvnn1606/devops_shop_frontend:latest
     container_name: devops_frontend
     restart: always
     ports:
