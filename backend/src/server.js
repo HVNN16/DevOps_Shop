@@ -41,8 +41,8 @@ async function ensureAdminAccount() {
 }
 
 (async () => {
-  await connectDB();          // 1️⃣ Kết nối MongoDB
-  await ensureAdminAccount(); // 2️⃣ Kiểm tra và tạo admin nếu chưa có
+  await connectDB();          
+  await ensureAdminAccount(); 
   app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
     console.log(`📚 Swagger UI: http://localhost:${PORT}/api-docs`);

@@ -2,14 +2,45 @@ import bcrypt from "bcryptjs";
 import User from "../models/user_model.js";
 
 // 🟢 Lấy danh sách người dùng
+// export const getUsers = async (req, res) => {
+//   try {
+//     const users = await User.find().select("-password");
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json({ message: "Lỗi server" });
+//   }
+// };
+
+// 🟢 Lấy danh sách người dùng + phân trang
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
-    res.json(users);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const total = await User.countDocuments();
+
+    const users = await User.find()
+      .select("-password")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      success: true,
+      data: users,
+      pagination: {
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+      }
+    });
   } catch (err) {
+    console.error("❌ Lỗi server:", err);
     res.status(500).json({ message: "Lỗi server" });
   }
 };
+
 
 // 🟢 Thêm người dùng mới
 export const createUser = async (req, res) => {
