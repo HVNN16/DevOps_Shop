@@ -23,7 +23,7 @@ import OrderList from "./pages/OrderList";
 import VNPayReturn from "./pages/VNPayReturn";
 
 import ProfilePage from "./pages/ProfilePage";
-
+import Wishlist from "./pages/Wishlist";
 
 import { CartProvider } from "./context/CartContext"; // BỌC TOÀN ỨNG DỤNG
 
@@ -43,6 +43,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/wishlist" element={<Wishlist />} />
 
             {/* 🧾 CHECKOUT + ORDERS */}
             <Route path="/checkout" element={<CheckoutPage />} />
