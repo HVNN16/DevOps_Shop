@@ -15,6 +15,8 @@ import paymentRoutes from "./routes/payment.js";
 import orderPayRoutes from "./routes/order_pay.js";
 import reviewRoutes from "./routes/review_routes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
+import chatbotRoutes from "./routes/chatbot.routes.js";
+
 
 const app = express();
 app.use(cors());
@@ -57,6 +59,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/order-pay", orderPayRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/chatbot", chatbotRoutes);
+
 // Đăng ký routes
 app.use("/api/users", userRoutes);
 app.use("/api/wishlist", wishlistRoutes);
