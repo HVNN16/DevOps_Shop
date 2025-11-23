@@ -19,6 +19,7 @@ import AdminProducts from "./pages/admin/AdminProducts"; // ✅ thêm route qu�
 import { Check } from "lucide-react";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderList from "./pages/OrderList";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/orders" element={<OrderList />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
 
           {/* 👤 Auth Routes */}
           <Route path="/login" element={<Login />} />
