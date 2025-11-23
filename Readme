@@ -1,36 +1,89 @@
-# 🚀 DEVOPS_SHOP
+🚀 DEVOPS_SHOP – Hệ Thống Bán Điện Thoại & DevOps Pipeline
 
-> **DEVOPS_SHOP** là dự án xây dựng hệ thống quản lý và bán điện thoại trực tuyến, áp dụng quy trình DevOps để tự động hóa triển khai, kiểm thử và quản lý hệ thống.
+🌐 DEVOPS_SHOP là dự án xây dựng nền tảng bán điện thoại trực tuyến kết hợp thực hành DevOps, bao gồm triển khai tự động, CI/CD, quản lý máy chủ, container hóa và tối ưu hóa quy trình phát triển.
 
----
+✨ Tính Năng Nổi Bật
+🛍️ Dành cho người dùng
 
-## 🌟 Tính năng chính
+Xem, tìm kiếm, lọc sản phẩm
 
-- 📱 Quản lý sản phẩm điện thoại
-- 🛒 Quản lý đơn hàng và khách hàng
-- 💳 Thanh toán trực tuyến
-- 🛠️ Quản trị hệ thống dành cho quản lý
+Xem chi tiết điện thoại (biến thể, màu sắc, dung lượng…)
 
----
+Thêm vào giỏ hàng / wishlist
 
-## 🛠️ Công nghệ sử dụng
+Thanh toán trực tuyến
 
-| Backend      | Frontend   | Database  | CI/CD                |
-|--------------|------------|-----------|----------------------|
-| Node.js      | ReactJS    | MongoDB   | GitHub Actions, Docker |
+Theo dõi đơn hàng
 
----
+🛠️ Dành cho Admin
 
-## 🎯 Mục tiêu
+Quản lý sản phẩm (CRUD)
 
-- Đem lại trải nghiệm mua sắm điện thoại tiện lợi cho khách hàng
-- Tối ưu hóa quy trình phát triển và triển khai phần mềm bằng DevOps
+Quản lý đơn hàng & khách hàng
 
----
+Dashboard thống kê
 
-## 👨‍💻 Thành viên nhóm
+Quản lý tồn kho
 
-- Trần Quốc Đông
-- Nguyễn Thị Minh Nguyệt
-- Huỳnh Văn Nghĩa
-- Hồ Quang Lành
+⚙️ DevOps
+
+CI/CD với GitHub Actions
+
+Docker & Docker Compose
+
+Deploy trên server (Linux / Cloud)
+
+Log management, monitoring
+
+Reverse proxy với Nginx
+
+🧩 Công Nghệ Sử Dụng
+Backend	Frontend	Database	CI/CD – DevOps
+Node.js (Express)	ReactJS (Vite)	MongoDB / Mongoose	GitHub Actions
+JWT Auth	Redux Toolkit	Cloud Mongo Atlas	Docker / Docker Compose
+RESTful API	Axios		Nginx Reverse Proxy
+🎯 Mục Tiêu Dự Án
+
+Xây dựng hệ thống bán điện thoại trực tuyến hiện đại
+
+Áp dụng DevOps để:
+
+Tự động hóa build → test → deploy
+
+Giảm lỗi hệ thống & tăng tốc độ phát triển
+
+Đảm bảo ứng dụng ổn định, dễ mở rộng
+
+👨‍💻 Thành Viên Nhóm – ST22B
+Thành viên	Vai trò
+Trần Quốc Đông	Backend & DevOps
+Nguyễn Thị Minh Nguyệt	Frontend & UI/UX
+Huỳnh Văn Nghĩa	DevOps – Triển khai & CI/CD
+Hồ Quang Lành	Database & Testing
+🗂️ Cấu Trúc Dự Án
+DevOps_Shop/
+│── backend/          # REST API Node.js
+│── frontend/         # ReactJS + Vite
+│── docker-compose.yml
+│── nginx.conf
+│── README.md
+
+🚀 CI/CD Pipeline
+
+🧪 Tự động chạy test backend/frontend
+
+🛠️ Build Docker images
+
+📦 Publish lên GitHub Container Registry
+
+🔄 Auto deploy lên server
+
+🔍 Tự động kiểm tra secret & security
+
+📸 Demo (Nếu có thể thêm sau)
+
+(Thêm hình minh họa UI, API, sơ đồ hệ thống vào đây)
+
+❤️ Cảm ơn thầy và các bạn đã theo dõi dự án!
+
+Dự án được thực hiện bởi nhóm ST22B – Đông Á University.
