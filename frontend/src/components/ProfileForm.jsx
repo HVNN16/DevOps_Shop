@@ -2,83 +2,157 @@ import { useState } from "react";
 import api from "../api/axios_client";
 
 export function ProfileForm({ user }) {
-  const [name, setName] = useState(user.name);
-  const [phone, setPhone] = useState(user.phone);
-  const [address, setAddress] = useState(user.address);
-  const [loading, setLoading] = useState(false);
 
-  const handleSave = async () => {
+  // Form thông tin tài khoản
+  const [form, setForm] = useState({
+    name: user.name,
+    email: user.email,
+    phone: user.phone || "",
+    address: user.address || "",
+    avatar: user.avatar || "",
+  });
+
+  // Form đổi mật khẩu
+  const [passForm, setPassForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+  });
+
+  const token = localStorage.getItem("token");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // 🔹 Cập nhật profile
+  const handleUpdate = async () => {
     try {
-      setLoading(true);
-
-      // 🔥 API thật — bạn đã có route /users/me/update
-      const res = await api.put("/users/me/update", {
-        name,
-        phone,
-        address,
+      await api.put("/users/me", form, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      alert("Cập nhật thông tin thành công!");
-
-      // Cập nhật user vào localStorage (Frontend tự nhận)
-      localStorage.setItem("user", JSON.stringify(res.data));
-
+      alert("✅ Cập nhật thành công!");
     } catch (err) {
       console.error(err);
-      alert("Lỗi cập nhật thông tin!");
-    } finally {
-      setLoading(false);
+      alert("❌ Cập nhật thất bại!");
+    }
+  };
+
+  // 🔹 Đổi mật khẩu
+  const handleChangePassword = async () => {
+    if (!passForm.oldPassword || !passForm.newPassword) {
+      alert("Vui lòng nhập đủ thông tin!");
+      return;
+    }
+
+    try {
+      await api.put("/users/change-password", passForm, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("🔑 Đổi mật khẩu thành công!");
+      setPassForm({ oldPassword: "", newPassword: "" });
+    } catch (err) {
+      alert("❌ Mật khẩu cũ không đúng!");
     }
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
 
-      {/* Name */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          Họ và tên
-        </label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full border rounded-lg px-4 py-2 bg-white"
-        />
+      {/* Thông tin cá nhân */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+          <label className="block font-medium mb-1">Họ và tên</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Email</label>
+          <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Số điện thoại</label>
+          <input
+            name="phone"
+            value={form.phone}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Địa chỉ</label>
+          <input
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block font-medium mb-1">Avatar URL</label>
+          <input
+            name="avatar"
+            value={form.avatar}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
       </div>
 
-      {/* Phone */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          Số điện thoại
-        </label>
-        <input
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="w-full border rounded-lg px-4 py-2 bg-white"
-        />
-      </div>
-
-      {/* Address */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          Địa chỉ
-        </label>
-        <textarea
-          rows="2"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="w-full border rounded-lg px-4 py-2 bg-white"
-        />
-      </div>
-
-      {/* Save Button */}
+      {/* Nút Lưu */}
       <button
-        onClick={handleSave}
-        disabled={loading}
-        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm disabled:opacity-60"
+        onClick={handleUpdate}
+        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
       >
-        {loading ? "Đang lưu..." : "Lưu thay đổi"}
+        Lưu thay đổi
       </button>
+
+      {/* Đổi mật khẩu */}
+      <div className="border-t pt-6">
+        <h3 className="text-lg font-semibold mb-3">Đổi mật khẩu</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            type="password"
+            placeholder="Mật khẩu cũ"
+            value={passForm.oldPassword}
+            onChange={(e) =>
+              setPassForm({ ...passForm, oldPassword: e.target.value })
+            }
+            className="border rounded w-full p-2"
+          />
+
+          <input
+            type="password"
+            placeholder="Mật khẩu mới"
+            value={passForm.newPassword}
+            onChange={(e) =>
+              setPassForm({ ...passForm, newPassword: e.target.value })
+            }
+            className="border rounded w-full p-2"
+          />
+        </div>
+
+        <button
+          onClick={handleChangePassword}
+          className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+        >
+          Đổi mật khẩu
+        </button>
+      </div>
     </div>
   );
 }
