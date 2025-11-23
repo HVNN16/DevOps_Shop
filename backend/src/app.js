@@ -30,11 +30,11 @@ const swaggerOptions = {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
-          bearerFormat: "JWT", // 🧠 giúp Swagger hiểu đây là token JWT
+          bearerFormat: "JWT", 
         },
       },
     },
-    security: [{ bearerAuth: [] }], // 🧠 áp dụng cho toàn bộ API
+    security: [{ bearerAuth: [] }], 
   },
   apis: ["./src/routes/*.js", "./src/docs/*.js"],
 };
