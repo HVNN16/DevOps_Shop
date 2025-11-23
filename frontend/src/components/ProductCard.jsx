@@ -6,8 +6,44 @@ import api from "../api/axios_client";
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
+  const [restockCountdown, setRestockCountdown] = useState("");
 
-  // 🔹 Wishlist
+  // ================= COUNTDOWN RESTOCK ==================
+  useEffect(() => {
+    if (!product.restockTime) return;
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const restockAt = new Date(product.restockTime).getTime();
+      const diff = restockAt - now;
+
+      if (diff <= 0) {
+        setRestockCountdown("Sắp có hàng trở lại");
+        clearInterval(interval);
+        return;
+      }
+
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      if (days > 0) {
+        setRestockCountdown(`${days} ngày ${hours} giờ`);
+      } else {
+        setRestockCountdown(
+          `${String(hours).padStart(2, "0")}:${String(mins).padStart(
+            2,
+            "0"
+          )}:${String(secs).padStart(2, "0")}`
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [product.restockTime]);
+
+  // ================= WISHLIST =================
   useEffect(() => {
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setLiked(wishlist.includes(product._id));
@@ -15,7 +51,6 @@ export default function ProductCard({ product }) {
 
   const handleWishlist = async (e) => {
     e.stopPropagation();
-
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -23,27 +58,22 @@ export default function ProductCard({ product }) {
         navigate("/login");
         return;
       }
-
       await api.post(`/wishlist/${product._id}`);
-
-      // update UI
       setLiked((prev) => !prev);
 
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       if (wishlist.includes(product._id)) {
         wishlist = wishlist.filter((id) => id !== product._id);
-      } else {
-        wishlist.push(product._id);
-      }
+      } else wishlist.push(product._id);
+
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
       window.dispatchEvent(new Event("wishlistUpdated"));
-    } catch (err) {
-      console.error("Wishlist Error:", err);
+    } catch {
       alert("Không thể cập nhật wishlist.");
     }
   };
 
-  // 🔹 Tính giá cuối cùng
+  // ================= PRICE =================
   const finalPrice =
     product.finalPrice ||
     product.basePrice -
@@ -52,13 +82,13 @@ export default function ProductCard({ product }) {
   const discount =
     product.discountPercent > 0 ? `-${product.discountPercent}%` : null;
 
-  // 🔹 Tồn kho tổng
+  // ================= STOCK =================
   const totalStock =
     product.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || 0;
 
   const isOutOfStock = totalStock <= 0;
 
-  // 🔹 Add to cart
+  // ================= ADD TO CART =================
   const handleAddToCart = async (e) => {
     e.stopPropagation();
 
@@ -76,19 +106,15 @@ export default function ProductCard({ product }) {
 
       alert(res.data.message || "Đã thêm vào giỏ");
       window.dispatchEvent(new Event("cartUpdated"));
-    } catch (err) {
-      console.error("Cart Error:", err.response?.data || err);
+    } catch {
       alert("Không thể thêm vào giỏ hàng");
     }
   };
 
   return (
     <div
-      onClick={() => {
-        if (!isOutOfStock) navigate(`/product/${product._id}`);
-      }}
-      className={`cursor-pointer border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all bg-white flex flex-col relative 
-        ${isOutOfStock ? "opacity-70 cursor-not-allowed" : ""}`}
+      onClick={() => navigate(`/product/${product._id}`)}
+      className="cursor-pointer border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all bg-white flex flex-col relative"
     >
       {/* Ảnh */}
       <div className="relative">
@@ -98,15 +124,24 @@ export default function ProductCard({ product }) {
             "https://via.placeholder.com/400x400?text=No+Image"
           }
           alt={product.name}
-          className="w-full h-72 object-cover"
+          className={`w-full h-72 object-cover ${
+            isOutOfStock ? "opacity-60" : ""
+          }`}
         />
 
-        {/* 🔥 Overlay chuyên nghiệp khi hết hàng */}
+        {/* HẾT HÀNG LABEL */}
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center gap-2">
             <span className="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
               HẾT HÀNG
             </span>
+
+            {/* COUNTDOWN HIỆN LẠI */}
+            {product.restockTime && (
+              <span className="bg-white text-red-600 text-xs font-semibold px-3 py-1 rounded-md shadow">
+                ⏳ Trở lại sau: {restockCountdown}
+              </span>
+            )}
           </div>
         )}
 
