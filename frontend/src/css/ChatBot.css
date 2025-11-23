@@ -1,0 +1,162 @@
+/* Nút mở chatbot */
+.chatbot-toggle {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background: #ff006e;
+  color: #fff;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 0, 110, 0.4);
+  z-index: 999999;
+}
+
+/* Hộp chat */
+.chatbot-box {
+  width: 380px;
+  height: 520px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.2);
+  z-index: 9999999;
+}
+
+.chatbot-header {
+  background: #ff006e;
+  color: #fff;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Body chat */
+.chatbot-body {
+  flex: 1;
+  padding: 10px;
+  background: #fafafa;
+  overflow-y: auto;
+}
+
+
+/* BONG BÓNG TIN NHẮN */
+.chat-msg {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-size: 15px;
+  display: inline-block;
+}
+
+.bot-msg {
+  background: #ffe6f1;
+  border: 1px solid #ffb2d0;
+  color: #222;
+}
+
+.user-msg {
+  background: #dceaff;
+  color: #083c75;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+/* HTML trả về (danh sách sản phẩm Shopee) */
+.html-msg {
+  width: 100%;
+}
+
+
+/* CARD SẢN PHẨM */
+.chat-product-card {
+  display: flex;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ffd0e6;
+  gap: 12px;
+}
+
+.chat-product-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.chat-product-info {
+  flex: 1;
+}
+
+.chat-product-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chat-product-price {
+  color: #ff006e;
+  font-weight: bold;
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+.chat-product-desc {
+  font-size: 14px;
+  color: #555;
+}
+
+.chat-product-btn {
+  display: inline-block;
+  background: #ff006e;
+  padding: 6px 12px;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+
+/* Input chat */
+.chatbot-input {
+  display: flex;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.chatbot-input button {
+  margin-left: 10px;
+  background: #ff006e;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
