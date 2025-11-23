@@ -1,89 +1,113 @@
-🚀 DEVOPS_SHOP – Hệ Thống Bán Điện Thoại & DevOps Pipeline
+<p align="center">
+  <img src="https://via.placeholder.com/1000x250.png?text=DEVOPS_SHOP+%7C+Online+Phone+Store+%2B+DevOps+Pipeline" />
+</p>
 
-🌐 DEVOPS_SHOP là dự án xây dựng nền tảng bán điện thoại trực tuyến kết hợp thực hành DevOps, bao gồm triển khai tự động, CI/CD, quản lý máy chủ, container hóa và tối ưu hóa quy trình phát triển.
+<h1 align="center">🚀 DEVOPS_SHOP – Hệ Thống Bán Điện Thoại & DevOps Pipeline</h1>
 
-✨ Tính Năng Nổi Bật
-🛍️ Dành cho người dùng
+<p align="center">
+  <i>Ứng dụng bán điện thoại trực tuyến kết hợp DevOps: CI/CD – Docker – Deployment – Monitoring</i>
+</p>
 
-Xem, tìm kiếm, lọc sản phẩm
+---
 
-Xem chi tiết điện thoại (biến thể, màu sắc, dung lượng…)
+## 🖼️ Demo Giao Diện
 
-Thêm vào giỏ hàng / wishlist
+<p align="center">
+  <img src="https://via.placeholder.com/700x400.png?text=Homepage+Demo" />
+  <img src="https://via.placeholder.com/700x400.png?text=Product+Detail+Page" />
+  <img src="https://via.placeholder.com/700x400.png?text=Admin+Dashboard" />
+</p>
 
-Thanh toán trực tuyến
+---
 
-Theo dõi đơn hàng
+## 🧱 Sơ Đồ Kiến Trúc Hệ Thống
 
-🛠️ Dành cho Admin
+<p align="center">
+  <img src="https://via.placeholder.com/900x500.png?text=System+Architecture+Diagram" />
+</p>
 
-Quản lý sản phẩm (CRUD)
+---
 
-Quản lý đơn hàng & khách hàng
+## ✨ Tính Năng Nổi Bật
 
-Dashboard thống kê
+### 🛍️ Người Dùng
+- 🔎 Tìm kiếm + lọc sản phẩm
+- 📱 Xem chi tiết điện thoại (màu sắc, bộ nhớ…)
+- 🧺 Giỏ hàng, wishlist
+- 💳 Thanh toán trực tuyến
+- 📦 Theo dõi đơn hàng
 
-Quản lý tồn kho
+### 🛠️ Admin
+- 📦 Quản lý sản phẩm (CRUD)
+- 🧾 Quản lý đơn hàng + khách hàng
+- 📊 Dashboard thống kê
+- 📉 Quản lý tồn kho
 
-⚙️ DevOps
+### ⚙️ DevOps
+- 🔁 CI/CD bằng GitHub Actions
+- 🐳 Docker + Docker Compose
+- 🌐 Reverse Proxy với Nginx
+- 🧪 Tự động build → test → deploy
+- 📜 Log management + giám sát
 
-CI/CD với GitHub Actions
+---
 
-Docker & Docker Compose
+## 🧩 Công Nghệ Sử Dụng
 
-Deploy trên server (Linux / Cloud)
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nodejs,express,react,mongodb,git,github,docker,nginx,linux" />
+</p>
 
-Log management, monitoring
+| Backend | Frontend | Database | DevOps |
+|--------|----------|----------|--------|
+| Node.js (Express) | ReactJS (Vite) | MongoDB Atlas | GitHub Actions |
+| JWT Auth | Redux Toolkit | Mongoose | Docker / Compose |
+| REST API | Axios | MongoDB | Nginx Reverse Proxy |
 
-Reverse proxy với Nginx
+---
 
-🧩 Công Nghệ Sử Dụng
-Backend	Frontend	Database	CI/CD – DevOps
-Node.js (Express)	ReactJS (Vite)	MongoDB / Mongoose	GitHub Actions
-JWT Auth	Redux Toolkit	Cloud Mongo Atlas	Docker / Docker Compose
-RESTful API	Axios		Nginx Reverse Proxy
-🎯 Mục Tiêu Dự Án
+## 📦 Cấu Trúc Dự Án
 
-Xây dựng hệ thống bán điện thoại trực tuyến hiện đại
-
-Áp dụng DevOps để:
-
-Tự động hóa build → test → deploy
-
-Giảm lỗi hệ thống & tăng tốc độ phát triển
-
-Đảm bảo ứng dụng ổn định, dễ mở rộng
-
-👨‍💻 Thành Viên Nhóm – ST22B
-Thành viên	Vai trò
-Trần Quốc Đông	Backend & DevOps
-Nguyễn Thị Minh Nguyệt	Frontend & UI/UX
-Huỳnh Văn Nghĩa	DevOps – Triển khai & CI/CD
-Hồ Quang Lành	Database & Testing
-🗂️ Cấu Trúc Dự Án
 DevOps_Shop/
-│── backend/          # REST API Node.js
-│── frontend/         # ReactJS + Vite
+│── backend/ # REST API Node.js
+│── frontend/ # ReactJS + Vite
 │── docker-compose.yml
 │── nginx.conf
 │── README.md
 
-🚀 CI/CD Pipeline
+yaml
+Sao chép mã
 
-🧪 Tự động chạy test backend/frontend
+---
 
-🛠️ Build Docker images
+## 🛠️ CI/CD Pipeline
 
-📦 Publish lên GitHub Container Registry
+<p align="center">
+  <img src="https://via.placeholder.com/800x350.png?text=CI%2FCD+Pipeline+Diagram" />
+</p>
 
-🔄 Auto deploy lên server
+- 🧪 Test backend/frontend tự động  
+- 🛠️ Build Docker image  
+- 📦 Đẩy image lên GitHub Container Registry  
+- 🔄 Tự động deploy lên server  
+- 🔍 Quét bảo mật + kiểm tra secret  
 
-🔍 Tự động kiểm tra secret & security
+---
 
-📸 Demo (Nếu có thể thêm sau)
+## 👨‍💻 Thành Viên Nhóm – ST22B
 
-(Thêm hình minh họa UI, API, sơ đồ hệ thống vào đây)
+| Thành viên | Vai trò |
+|-------------|---------|
+| **Trần Quốc Đông** | Backend & DevOps |
+| **Nguyễn Thị Minh Nguyệt** | Frontend & UI/UX |
+| **Huỳnh Văn Nghĩa** | DevOps – CI/CD & Deployment |
+| **Hồ Quang Lành** | Database & Testing |
 
-❤️ Cảm ơn thầy và các bạn đã theo dõi dự án!
+---
 
-Dự án được thực hiện bởi nhóm ST22B – Đông Á University.
+## ❤️ Cảm Ơn  
+Dự án được thực hiện bởi nhóm **ST22B – Đông Á University**.
+
+<p align="center">
+  <img src="https://via.placeholder.com/150x150.png?text=Thank+You" />
+</p>
