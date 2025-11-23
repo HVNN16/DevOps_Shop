@@ -13,6 +13,7 @@ import authRoutes from './routes/auth_routes.js';
 import messageRoutes from "./routes/messageRoutes.js";
 import paymentRoutes from "./routes/payment.js";
 import orderPayRoutes from "./routes/order_pay.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 
 const app = express();
 app.use(cors());
@@ -54,6 +55,6 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/order-pay", orderPayRoutes);
-// Đăng ký routes
-app.use("/api/users", userRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+
 export default app;
