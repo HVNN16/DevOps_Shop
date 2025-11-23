@@ -11,6 +11,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import authRoutes from './routes/auth_routes.js';
 import messageRoutes from "./routes/messageRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 
 const app = express();
 app.use(cors());
@@ -50,6 +51,6 @@ app.use('/api/users', userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
-// Đăng ký routes
-app.use("/api/users", userRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+
 export default app;
