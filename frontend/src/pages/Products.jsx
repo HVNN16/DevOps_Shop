@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../api/axios_client";
 import ProductCard from "../components/ProductCard";
+import { Range } from "react-range";
 
 export default function Products() {
   const [searchParams] = useSearchParams();
@@ -95,7 +96,7 @@ export default function Products() {
 
         {/* Bộ lọc */}
         <aside className="md:col-span-1">
-          <div className="border rounded-xl p-5 bg-white shadow-sm sticky top-20">
+<div className="border rounded-xl p-5 bg-white shadow-sm sticky top-20">
 
             <h2 className="font-bold text-lg mb-4">Bộ lọc</h2>
 
@@ -116,24 +117,58 @@ export default function Products() {
 
             {/* Price Filter */}
             <div className="mt-6">
-              <h3 className="font-semibold mb-2">Khoảng giá</h3>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(Number(e.target.value))}
-                  className="w-24 border rounded px-2 py-1 text-sm"
-                />
-                <span>-</span>
-                <input
-                  type="number"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-24 border rounded px-2 py-1 text-sm"
-                />
-              </div>
-            </div>
+  <h3 className="font-semibold mb-2">Khoảng giá</h3>
 
+  <Range
+    step={500000}
+    min={0}
+    max={40000000}
+    values={[minPrice, maxPrice]}
+    onChange={(values) => {
+      setMinPrice(values[0]);
+      setMaxPrice(values[1]);
+      setPage(1);
+    }}
+    renderTrack={({ props, children }) => (
+      <div
+        {...props}
+        className="h-2 bg-gray-200 rounded relative"
+        style={{ marginTop: "20px" }}
+      >
+        <div
+          className="bg-blue-500 h-2 rounded absolute"
+          style={{
+            left: `${(minPrice / 40000000) * 100}%`,
+            right: `${100 - (maxPrice / 40000000) * 100}%`,
+          }}
+        />
+        {children}
+      </div>
+    )}
+    renderThumb={({ props }) => (
+      <div
+        {...props}
+        className="w-5 h-5 bg-blue-500 rounded-full shadow cursor-pointer"
+      />
+    )}
+  />
+
+  {/* Hiển thị giá */}
+  <div className="flex justify-between text-sm mt-3">
+    <span>{minPrice.toLocaleString()} ₫</span>
+    <span>{maxPrice.toLocaleString()} ₫</span>
+  </div>
+
+  <button
+    onClick={() => {
+      fetchProducts();
+      setPage(1);
+    }}
+    className="mt-3 w-full bg-black text-white text-sm py-2 rounded-lg hover:bg-gray-800 transition"
+  >
+    Áp dụng
+  </button>
+</div>
             {/* In stock */}
             <div className="mt-4">
               <label className="flex items-center gap-2 text-sm">
@@ -162,8 +197,7 @@ export default function Products() {
                   <ProductCard key={p._id} product={p} />
                 ))}
               </div>
-
-              {/* Pagination */}
+{/* Pagination */}
               <div className="flex justify-center gap-3 mt-10">
                 <button
                   disabled={page === 1}
