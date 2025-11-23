@@ -26,7 +26,7 @@ export default function ChatBot() {
     setInput("");
 
     try {
-      const res = await fetch("http://localhost:8081/api/chatbot/smart", {
+      const res = await fetch("http://44.222.231.16:8081/api/chatbot/smart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userText }),

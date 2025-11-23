@@ -175,7 +175,7 @@ export default function AdminDashboard() {
   const fetchUsers = async (page = 1) => {
     try {
       const res = await axios.get(
-        `http://localhost:8081/api/users?page=${page}&limit=${limit}`,
+        `http://44.222.231.16:8081/api/users?page=${page}&limit=${limit}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
       try {
-        await axios.delete(`http://localhost:8081/api/users/${id}`, {
+        await axios.delete(`http://44.222.231.16:8081/api/users/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("🗑️ Xóa thành công!");
@@ -220,13 +220,13 @@ export default function AdminDashboard() {
     try {
       if (editingUser) {
         await axios.put(
-          `http://localhost:8081/api/users/${editingUser._id}`,
+          `http://44.222.231.16:8081/api/users/${editingUser._id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         alert("✅ Cập nhật thành công!");
       } else {
-        await axios.post("http://localhost:8081/api/users", formData, {
+        await axios.post("http://44.222.231.16:8081/api/users", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("✅ Thêm người dùng thành công!");

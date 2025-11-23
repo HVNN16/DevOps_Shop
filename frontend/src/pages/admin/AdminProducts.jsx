@@ -159,7 +159,7 @@ export default function AdminProducts() {
   const fetchProducts = async (page = 1) => {
     try {
       const res = await axios.get(
-        `http://localhost:8081/api/products?page=${page}&limit=${limit}`
+        `http://44.222.231.16:8081/api/products?page=${page}&limit=${limit}`
       );
 
       setProducts(res.data.data);
@@ -188,7 +188,7 @@ export default function AdminProducts() {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn chắc chắn muốn xóa sản phẩm này?")) {
       try {
-        await axios.delete(`http://localhost:8081/api/products/${id}`, {
+        await axios.delete(`http://44.222.231.16:8081/api/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("🗑️ Xóa thành công!");
@@ -202,12 +202,12 @@ export default function AdminProducts() {
   const handleSubmit = async (data) => {
     try {
       if (editingProduct) {
-        await axios.put(`http://localhost:8081/api/products/${editingProduct._id}`, data, {
+        await axios.put(`http://44.222.231.16:8081/api/products/${editingProduct._id}`, data, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("✅ Cập nhật thành công!");
       } else {
-        await axios.post("http://localhost:8081/api/products", data, {
+        await axios.post("http://44.222.231.16:8081/api/products", data, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("✅ Thêm sản phẩm thành công!");
