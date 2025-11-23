@@ -13,7 +13,11 @@ import authRoutes from './routes/auth_routes.js';
 import messageRoutes from "./routes/messageRoutes.js";
 import paymentRoutes from "./routes/payment.js";
 import orderPayRoutes from "./routes/order_pay.js";
+<<<<<<< HEAD
+import reviewRoutes from "./routes/review_routes.js";
+=======
 import wishlistRoutes from "./routes/wishlistRoutes.js";
+>>>>>>> f19d68b91aee3e0bb68246a1380bd68ca537b506
 
 const app = express();
 app.use(cors());
@@ -55,6 +59,12 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/order-pay", orderPayRoutes);
+<<<<<<< HEAD
+app.use("/api/reviews", reviewRoutes);
+// Đăng ký routes
+app.use("/api/users", userRoutes);
+=======
 app.use("/api/wishlist", wishlistRoutes);
 
+>>>>>>> f19d68b91aee3e0bb68246a1380bd68ca537b506
 export default app;

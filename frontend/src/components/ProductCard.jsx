@@ -125,14 +125,14 @@ export default function ProductCard({ product, onRemoveWishlist }) {
             {product.name}
           </h3>
 
-          {/* Đánh giá */}
+          {/* ⭐ Hiển thị rating đúng */}
           <div className="flex items-center gap-1 text-yellow-500 text-sm mt-1">
             <span>⭐</span>
             <span className="text-gray-800 font-medium">
-              {product.ratingAvg?.toFixed(1) || "0.0"}
+              {product.averageRating?.toFixed(1) || "0.0"}
             </span>
             <span className="text-gray-500 text-xs">
-              ({product.ratingCount || 0})
+              ({product.reviewCount || 0})
             </span>
           </div>
 
