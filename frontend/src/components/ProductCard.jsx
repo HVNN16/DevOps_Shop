@@ -3,19 +3,18 @@ import { ShoppingCart, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios_client";
 
-export default function ProductCard({ product, onRemoveWishlist }) {
+export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 
-  // 🔹 Check wishlist in localStorage
+  // 🔹 Wishlist
   useEffect(() => {
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setLiked(wishlist.includes(product._id));
   }, [product._id]);
 
-  // 🔹 Toggle wishlist
   const handleWishlist = async (e) => {
-    e.stopPropagation(); // tránh click vào card
+    e.stopPropagation();
 
     try {
       const token = localStorage.getItem("token");
@@ -27,10 +26,9 @@ export default function ProductCard({ product, onRemoveWishlist }) {
 
       await api.post(`/wishlist/${product._id}`);
 
-      // cập nhật UI
+      // update UI
       setLiked((prev) => !prev);
 
-      // cập nhật localStorage (client cache)
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       if (wishlist.includes(product._id)) {
         wishlist = wishlist.filter((id) => id !== product._id);
@@ -38,27 +36,37 @@ export default function ProductCard({ product, onRemoveWishlist }) {
         wishlist.push(product._id);
       }
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
-
       window.dispatchEvent(new Event("wishlistUpdated"));
-
     } catch (err) {
-      console.error("❌ Wishlist Error:", err);
+      console.error("Wishlist Error:", err);
       alert("Không thể cập nhật wishlist.");
     }
   };
 
   // 🔹 Tính giá cuối cùng
-  const discount =
-    product.discountPercent > 0 ? `-${product.discountPercent}%` : null;
-
   const finalPrice =
     product.finalPrice ||
     product.basePrice -
       (product.basePrice * (product.discountPercent || 0)) / 100;
 
-  // 🔹 Thêm vào giỏ
+  const discount =
+    product.discountPercent > 0 ? `-${product.discountPercent}%` : null;
+
+  // 🔹 Tồn kho tổng
+  const totalStock =
+    product.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || 0;
+
+  const isOutOfStock = totalStock <= 0;
+
+  // 🔹 Add to cart
   const handleAddToCart = async (e) => {
     e.stopPropagation();
+
+    if (isOutOfStock) {
+      alert("Sản phẩm đã hết hàng");
+      return;
+    }
+
     try {
       const res = await api.post("/cart/add", {
         productId: product._id,
@@ -66,21 +74,23 @@ export default function ProductCard({ product, onRemoveWishlist }) {
         quantity: 1,
       });
 
-      alert("✅ " + (res.data.message || "Đã thêm vào giỏ hàng"));
+      alert(res.data.message || "Đã thêm vào giỏ");
       window.dispatchEvent(new Event("cartUpdated"));
-
     } catch (err) {
-      console.error("POST /cart/add:", err.response?.data || err);
-      alert("❌ Lỗi khi thêm vào giỏ hàng");
+      console.error("Cart Error:", err.response?.data || err);
+      alert("Không thể thêm vào giỏ hàng");
     }
   };
 
   return (
     <div
-      onClick={() => navigate(`/product/${product._id}`)}
-      className="cursor-pointer border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all bg-white flex flex-col"
+      onClick={() => {
+        if (!isOutOfStock) navigate(`/product/${product._id}`);
+      }}
+      className={`cursor-pointer border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all bg-white flex flex-col relative 
+        ${isOutOfStock ? "opacity-70 cursor-not-allowed" : ""}`}
     >
-      {/* Ảnh sản phẩm */}
+      {/* Ảnh */}
       <div className="relative">
         <img
           src={
@@ -91,33 +101,35 @@ export default function ProductCard({ product, onRemoveWishlist }) {
           className="w-full h-72 object-cover"
         />
 
-        {/* Label nổi bật */}
-        <span className="absolute top-3 left-3 bg-black text-white text-xs font-semibold px-2 py-1 rounded-md">
-          Nổi bật
-        </span>
+        {/* 🔥 Overlay chuyên nghiệp khi hết hàng */}
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <span className="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+              HẾT HÀNG
+            </span>
+          </div>
+        )}
 
         {/* Giảm giá */}
         {discount && (
-          <span className="absolute top-3 right-3 bg-gray-100 text-gray-800 text-xs font-semibold px-2 py-1 rounded-md">
+          <span className="absolute top-3 right-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow">
             {discount}
           </span>
         )}
 
-        {/* ❤️ Wishlist */}
+        {/* Wishlist */}
         <button
           onClick={handleWishlist}
           className="absolute bottom-3 right-3 bg-white p-2 rounded-full shadow hover:shadow-md transition text-gray-500 hover:text-red-500"
         >
           <Heart
             size={18}
-            className={`transition ${
-              liked ? "fill-red-500 text-red-500" : ""
-            }`}
+            className={`${liked ? "fill-red-500 text-red-500" : ""}`}
           />
         </button>
       </div>
 
-      {/* Thông tin sản phẩm */}
+      {/* Thông tin */}
       <div className="flex flex-col justify-between flex-1 p-4">
         <div>
           <p className="text-sm text-gray-500">{product.brand}</p>
@@ -125,10 +137,10 @@ export default function ProductCard({ product, onRemoveWishlist }) {
             {product.name}
           </h3>
 
-          {/* ⭐ Hiển thị rating đúng */}
+          {/* ⭐ Rating */}
           <div className="flex items-center gap-1 text-yellow-500 text-sm mt-1">
             <span>⭐</span>
-            <span className="text-gray-800 font-medium">
+            <span className="font-medium">
               {product.averageRating?.toFixed(1) || "0.0"}
             </span>
             <span className="text-gray-500 text-xs">
@@ -142,7 +154,7 @@ export default function ProductCard({ product, onRemoveWishlist }) {
               {finalPrice.toLocaleString("vi-VN")}đ
             </p>
             {product.discountPercent > 0 && (
-              <p className="text-sm text-gray-400 line-through">
+              <p className="line-through text-sm text-gray-400">
                 {product.basePrice.toLocaleString("vi-VN")}đ
               </p>
             )}
@@ -150,13 +162,22 @@ export default function ProductCard({ product, onRemoveWishlist }) {
         </div>
 
         {/* Nút thêm vào giỏ */}
-        <button
-          onClick={handleAddToCart}
-          className="mt-5 w-full bg-black text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition"
-        >
-          <ShoppingCart size={16} />
-          <span className="text-sm font-medium">Thêm vào giỏ</span>
-        </button>
+        {isOutOfStock ? (
+          <button
+            disabled
+            className="mt-5 w-full bg-gray-400 text-white py-2 rounded-lg cursor-not-allowed"
+          >
+            Hết hàng
+          </button>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            className="mt-5 w-full bg-black text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition"
+          >
+            <ShoppingCart size={16} />
+            <span className="text-sm font-medium">Thêm vào giỏ</span>
+          </button>
+        )}
       </div>
     </div>
   );
