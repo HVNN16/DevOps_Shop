@@ -15,59 +15,80 @@ import NotFound from "./pages/NotFound";
 
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminProducts from "./pages/admin/AdminProducts"; // ✅ thêm route quản lý sản phẩm
-import { Check } from "lucide-react";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
+
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderList from "./pages/OrderList";
-import Wishlist from "./pages/Wishlist";
+import VNPayReturn from "./pages/VNPayReturn";
+
+import ProfilePage from "./pages/ProfilePage";
+
+
+import { CartProvider } from "./context/CartContext"; // BỌC TOÀN ỨNG DỤNG
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
+    <CartProvider>
+      <BrowserRouter>
+        <Header />
 
-      <main className="min-h-[80vh]">
-        <Routes>
-          {/* 🌐 Public Routes */}
-          <Route path="/" element={<ProductList />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orders" element={<OrderList />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+        <main className="min-h-[80vh]">
+          <Routes>
+            {/* 🌐 PUBLIC ROUTES */}
+            <Route path="/" element={<ProductList />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
 
-          {/* 👤 Auth Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            {/* 🧾 CHECKOUT + ORDERS */}
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrderList />} />
+            <Route path="/vnpay-return" element={<VNPayReturn />} />
 
-          {/* ⚙️ Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/products"
-            element={
-              <AdminRoute>
-                <AdminProducts />
-              </AdminRoute>
-            }
-          />
+            {/* 👤 AUTH */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* ❌ 404 Not Found */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+            {/* ⚙️ ADMIN ROUTES */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              }
+            />
 
-      <Footer />
-    </BrowserRouter>
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <AdminProducts />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <AdminOrders />
+                </AdminRoute>
+              }
+            />
+
+            {/* ❌ 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

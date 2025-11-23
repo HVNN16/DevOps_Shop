@@ -11,6 +11,8 @@ import orderRoutes from "./routes/orderRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import authRoutes from './routes/auth_routes.js';
 import messageRoutes from "./routes/messageRoutes.js";
+import paymentRoutes from "./routes/payment.js";
+import orderPayRoutes from "./routes/order_pay.js";
 
 const app = express();
 app.use(cors());
@@ -28,11 +30,11 @@ const swaggerOptions = {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
-          bearerFormat: "JWT", // 🧠 giúp Swagger hiểu đây là token JWT
+          bearerFormat: "JWT", 
         },
       },
     },
-    security: [{ bearerAuth: [] }], // 🧠 áp dụng cho toàn bộ API
+    security: [{ bearerAuth: [] }], 
   },
   apis: ["./src/routes/*.js", "./src/docs/*.js"],
 };
@@ -46,10 +48,12 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use('/api/products', productRoutes);
+app.use("/api/payment", paymentRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/order-pay", orderPayRoutes);
 // Đăng ký routes
 app.use("/api/users", userRoutes);
 export default app;
