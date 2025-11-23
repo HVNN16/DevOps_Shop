@@ -5,11 +5,16 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  getMyProfile,
+  updateProfile,
+  changePassword,
 } from "../controllers/user_controller.js";
 
 const router = express.Router();
 
-// ✅ CRUD routes
+router.get("/me", authMiddleware, getMyProfile);
+router.put("/me", authMiddleware, updateProfile);
+router.put("/change-password", authMiddleware, changePassword);
 router.get("/", authMiddleware, getUsers);
 router.post("/", authMiddleware, createUser);
 router.put("/:id", authMiddleware, updateUser);
