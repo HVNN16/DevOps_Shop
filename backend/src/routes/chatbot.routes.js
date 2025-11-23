@@ -4,7 +4,7 @@ import Product from "../models/Product.js";
 
 const router = express.Router();
 const GROQ_KEY = process.env.GROQ_API_KEY;
-const CLIENT_URL = "http://localhost:3000";
+const CLIENT_URL = "http://44.222.231.16:3000/";
 
 router.post("/smart", async (req, res) => {
   try {
