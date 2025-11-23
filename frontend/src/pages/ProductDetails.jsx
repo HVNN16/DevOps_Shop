@@ -17,6 +17,9 @@ export default function ProductDetail() {
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const [restockCountdown, setRestockCountdown] = useState("");
+
+  // ===== LOAD PRODUCT =====
   useEffect(() => {
     loadProduct();
     loadReviews();
@@ -25,6 +28,14 @@ export default function ProductDetail() {
   const loadProduct = async () => {
     try {
       const res = await api.get(`/products/${id}`);
+
+      // ====== DEMO RESTOCK TIME NGẪU NHIÊN ======
+      const now = new Date().getTime();
+      const randomHours = Math.floor(Math.random() * 6) + 1; // 1–6 giờ
+      const randomMs = randomHours * 60 * 60 * 1000;
+      res.data.restockTime = new Date(now + randomMs).toISOString();
+      // ==========================================
+
       setProduct(res.data);
       setSelectedVariant(res.data.variants?.[0]);
     } catch (err) {
@@ -32,6 +43,7 @@ export default function ProductDetail() {
     }
   };
 
+  // ===== LOAD REVIEWS ======
   const loadReviews = async () => {
     try {
       const res = await api.get(`/reviews/product/${id}`);
@@ -43,6 +55,42 @@ export default function ProductDetail() {
     }
   };
 
+  // ===== COUNTDOWN RESTOCK =====
+  useEffect(() => {
+    if (!product?.restockTime) return;
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const restockAt = new Date(product.restockTime).getTime();
+      const diff = restockAt - now;
+
+      if (diff <= 0) {
+        setRestockCountdown("Sắp có hàng trở lại");
+        clearInterval(interval);
+        return;
+      }
+
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      if (d > 0) {
+        setRestockCountdown(`${d} ngày ${h} giờ`);
+      } else {
+        setRestockCountdown(
+          `${String(h).padStart(2, "0")}:${String(m).padStart(
+            2,
+            "0"
+          )}:${String(s).padStart(2, "0")}`
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [product?.restockTime]);
+
+  // ===== SUBMIT REVIEW =====
   const submitReview = async () => {
     if (!rating) return alert("Bạn chưa chọn số sao!");
 
@@ -54,7 +102,7 @@ export default function ProductDetail() {
       setComment("");
 
       loadReviews();
-      loadProduct(); // ⬅ cập nhật averageRating + reviewCount
+      loadProduct();
     } catch (err) {
       alert("❌ Lỗi khi gửi đánh giá");
       console.error("REVIEW ERROR:", err);
@@ -62,7 +110,10 @@ export default function ProductDetail() {
     setSubmitting(false);
   };
 
+  // ===== ADD TO CART =====
   const addToCart = async () => {
+    if (totalStock <= 0) return alert("Sản phẩm đã hết hàng");
+
     try {
       await api.post("/cart/add", {
         productId: product._id,
@@ -78,6 +129,12 @@ export default function ProductDetail() {
 
   if (!product) return <p className="text-center mt-10">Đang tải...</p>;
 
+  // ===== TÍNH TỒN KHO =====
+  const totalStock =
+    product.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || 0;
+
+  const isOutOfStock = totalStock <= 0;
+
   const finalPrice = product.finalPrice || product.basePrice;
 
   return (
@@ -87,7 +144,9 @@ export default function ProductDetail() {
         <img
           src={product.images?.[0]}
           alt={product.name}
-          className="w-full rounded-xl border"
+          className={`w-full rounded-xl border ${
+            isOutOfStock ? "opacity-60" : ""
+          }`}
         />
 
         <div>
@@ -102,9 +161,24 @@ export default function ProductDetail() {
           </div>
 
           <p className="text-3xl font-bold mt-4">
-            {finalPrice.toLocaleString()}đ
+            {finalPrice.toLocaleString("vi-VN")}đ
           </p>
 
+          {/* ===== HẾT HÀNG + COUNTDOWN ===== */}
+          {isOutOfStock && (
+            <div className="mt-4">
+              <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg text-center font-semibold">
+                ⚠ Sản phẩm hiện hết hàng
+              </div>
+
+              <div className="mt-3 bg-yellow-100 border border-yellow-300 text-yellow-700 p-2 rounded-lg text-center font-medium">
+                Sẽ có hàng lại sau:{" "}
+                <span className="font-bold">{restockCountdown}</span>
+              </div>
+            </div>
+          )}
+
+          {/* ==== CHỌN BIẾN THỂ ==== */}
           {product.variants?.length > 0 && (
             <select
               className="mt-5 border px-3 py-2 rounded-lg"
@@ -122,14 +196,86 @@ export default function ProductDetail() {
             </select>
           )}
 
-          <button
-            onClick={addToCart}
-            className="mt-5 w-full bg-black text-white py-3 rounded-lg flex items-center justify-center gap-2"
-          >
-            <ShoppingCart size={18} /> Thêm vào giỏ hàng
-          </button>
+          {/* ==== NÚT THÊM VÀO GIỎ ==== */}
+          {isOutOfStock ? (
+            <button
+              disabled
+              className="mt-5 w-full bg-gray-400 text-white py-3 rounded-lg cursor-not-allowed"
+            >
+              Hết hàng
+            </button>
+          ) : (
+            <button
+              onClick={addToCart}
+              className="mt-5 w-full bg-black text-white py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition"
+            >
+              <ShoppingCart size={18} /> Thêm vào giỏ hàng
+            </button>
+          )}
         </div>
       </div>
+      {/* ==== CHI TIẾT SẢN PHẨM ==== */}
+<div className="mt-10 bg-white p-6 rounded-xl shadow-sm">
+  <h2 className="text-xl font-semibold mb-4">Chi tiết sản phẩm</h2>
+
+  {/* Mô tả sản phẩm */}
+  {product.description && (
+    <p className="text-gray-700 leading-relaxed mb-6">
+      {product.description}
+    </p>
+  )}
+
+  {/* Bảng thông số kỹ thuật */}
+  <div className="border rounded-lg overflow-hidden">
+    <table className="w-full text-left border-collapse">
+      <tbody>
+        {product.specs?.screen && (
+          <tr className="border-b">
+            <td className="p-3 font-semibold w-40">Màn hình</td>
+            <td className="p-3">{product.specs.screen}</td>
+          </tr>
+        )}
+
+        {product.specs?.chipset && (
+          <tr className="border-b">
+            <td className="p-3 font-semibold">Chipset</td>
+            <td className="p-3">{product.specs.chipset}</td>
+          </tr>
+        )}
+
+        {product.specs?.battery && (
+          <tr className="border-b">
+            <td className="p-3 font-semibold">Pin</td>
+            <td className="p-3">{product.specs.battery}</td>
+          </tr>
+        )}
+
+        {product.specs?.camera && (
+          <tr className="border-b">
+            <td className="p-3 font-semibold">Camera</td>
+            <td className="p-3">{product.specs.camera}</td>
+          </tr>
+        )}
+
+        {product.specs?.os && (
+          <tr className="border-b">
+            <td className="p-3 font-semibold">Hệ điều hành</td>
+            <td className="p-3">{product.specs.os}</td>
+          </tr>
+        )}
+
+        {/* Others (object linh hoạt) */}
+        {product.specs?.others &&
+          Object.entries(product.specs.others).map(([key, value]) => (
+            <tr key={key} className="border-b">
+              <td className="p-3 font-semibold capitalize">{key}</td>
+              <td className="p-3">{value}</td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
+</div>
 
       {/* ==== FORM REVIEW ==== */}
       {user && (
